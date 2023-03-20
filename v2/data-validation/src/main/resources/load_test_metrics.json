@@ -1,0 +1,64 @@
+[
+    {
+        "name": "timestamp",
+        "type": "TIMESTAMP"
+    },
+    {
+        "name": "sdk",
+        "type": "STRING"
+    },
+    {
+        "name": "version",
+        "type": "STRING"
+    },
+    {
+        "name": "job_type",
+        "type": "STRING"
+    },
+    {
+        "name": "template_name",
+        "type": "STRING"
+    },
+    {
+        "name": "template_version",
+        "type": "STRING"
+    },
+    {
+        "name": "template_type",
+        "type": "STRING"
+    },
+    {
+        "name": "test_name",
+        "type": "STRING"
+    },
+    {
+        "name": "parameters",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "name",
+                "type": "STRING"
+            },
+            {
+                "name": "value",
+                "type": "STRING"
+            }
+        ]
+    },
+    {
+        "name": "metrics",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "name",
+                "type": "STRING"
+            },
+            {
+                "name": "value",
+                "type": "FLOAT64"
+            }
+        ]
+    }
+]

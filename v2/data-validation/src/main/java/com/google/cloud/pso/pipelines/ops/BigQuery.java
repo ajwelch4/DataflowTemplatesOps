@@ -17,6 +17,7 @@ import software.constructs.Construct;
 /** BigQuery resources. */
 public class BigQuery extends Construct {
 
+  private GoogleBigqueryDataset simbaJdbcDataset;
   private GoogleBigqueryDataset loadTestDataset;
   private GoogleBigqueryTable loadTestMetricsTable;
   private GoogleBigqueryTable loadTestResultsTable;
@@ -28,6 +29,14 @@ public class BigQuery extends Construct {
       String region,
       GoogleServiceAccount dataflowWorkerServiceAccount) {
     super(scope, id);
+
+    simbaJdbcDataset =
+        GoogleBigqueryDataset.Builder.create(this, "simba_jdbc_bigquery_dataset")
+            .project(project)
+            .location(region)
+            .datasetId("_simba_jdbc")
+            .deleteContentsOnDestroy(true)
+            .build();
 
     loadTestDataset =
         GoogleBigqueryDataset.Builder.create(this, "load_test_bigquery_dataset")
@@ -54,6 +63,10 @@ public class BigQuery extends Construct {
             .schema(readBigQueryJsonSchemaFile("load_test_results.json"))
             .deletionProtection(false)
             .build();
+  }
+
+  public GoogleBigqueryDataset getSimbaJdbcDataset() {
+    return simbaJdbcDataset;
   }
 
   public GoogleBigqueryDataset getLoadTestDataset() {

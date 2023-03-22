@@ -61,6 +61,10 @@ public class PipelinesStack extends TerraformStack {
         .value(storage.getDataflowGcpTempLocationBucket().getName())
         .build();
 
+    TerraformOutput.Builder.create(this, "bigquery_simba_jdbc_dataset")
+        .value(bigQuery.getSimbaJdbcDataset())
+        .build();
+
     TerraformOutput.Builder.create(this, "bigquery_load_test_dataset")
         .value(bigQuery.getLoadTestDataset())
         .build();

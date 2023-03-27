@@ -4,5 +4,5 @@
  * agreement with Google.
  */
 
-/** Devops assets for com.google.cloud.pso.pipelines. */
-package com.google.cloud.pso.pipelines.ops;
+/** Devops assets. */
+package com.google.cloud.teleport.v2.ops.datavalidation;

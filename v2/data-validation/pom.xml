@@ -4,12 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.google.cloud.pso</groupId>
-  <artifactId>dataflow-templates-ops</artifactId>
+  <artifactId>data-validation-ops</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>dataflow-templates-ops</name>
-  <description>Devops assets for DataflowTemplates.</description>
+  <name>data-validation-ops</name>
 
   <organization>
     <name>Google Cloud</name>
@@ -130,7 +129,7 @@
         <version>3.0.0</version>
         <configuration>
           <skip>false</skip>
-          <mainClass>com.google.cloud.pso.pipelines.ops.Main</mainClass>
+          <mainClass>com.google.cloud.teleport.v2.ops.datavalidation.Main</mainClass>
         </configuration>
       </plugin>
 

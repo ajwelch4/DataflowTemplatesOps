@@ -3,7 +3,7 @@
  * representation for any use or purpose. Your use of it is subject to your
  * agreement with Google.
  */
-package com.google.cloud.pso.pipelines.ops;
+package com.google.cloud.teleport.v2.ops.datavalidation;
 
 import com.hashicorp.cdktf.providers.google_beta.google_project_iam_member.GoogleProjectIamMember;
 import com.hashicorp.cdktf.providers.google_beta.google_service_account.GoogleServiceAccount;

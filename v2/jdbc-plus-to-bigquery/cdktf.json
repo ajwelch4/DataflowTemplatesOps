@@ -1,0 +1,13 @@
+{
+  "language": "java",
+  "app": "mvn -e -q compile exec:java",
+  "projectId": "b71f6bf9-4b4f-4aff-b2c0-f70ffde4c36f",
+  "sendCrashReports": "false",
+  "codeMakerOutput": "src/main/java/imports",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}

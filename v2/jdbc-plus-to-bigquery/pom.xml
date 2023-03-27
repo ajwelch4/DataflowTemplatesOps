@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.google.cloud.pso</groupId>
+  <artifactId>jdbc-plus-to-bigquery-ops</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>jdbc-plus-to-bigquery-ops</name>
+
+  <organization>
+    <name>Google Cloud</name>
+    <url>https://cloud.google.com/</url>
+  </organization>
+ 
+  <developers>
+    <developer>
+      <id>ajwelch@google.com</id>
+      <name>AJ Welch</name>
+      <email>ajwelch@google.com</email>
+    </developer>
+  </developers>
+ 
+  <properties>    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
+
+    <!-- Plugins -->
+    <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
+    <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
+    <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+    <maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
+    <maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
+    <maven-enforcer-rules.version>1.6.1</maven-enforcer-rules.version>
+    <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
+    <os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
+    <spotless-maven-plugin.version>2.30.0</spotless-maven-plugin.version>
+    <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
+
+    <!-- Dependency versions -->
+    <checkstyle.version>10.6.0</checkstyle.version>
+    <cloud-libraries-bom.version>26.4.0</cloud-libraries-bom.version>
+    <junit.version>5.9.2</junit.version>
+    <log4j-2.version>2.17.2</log4j-2.version>
+    <slf4j.version>1.7.32</slf4j.version>
+    <surefire.version>2.21.0</surefire.version>
+    <cdktf.version>0.16.0-pre.3</cdktf.version>
+    <cdktf-provider-google-beta.version>5.0.1</cdktf-provider-google-beta.version>
+    <cdktf-provider-local.version>5.0.0</cdktf-provider-local.version>
+    <constructs.version>10.1.229</constructs.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>libraries-bom</artifactId>
+        <version>${cloud-libraries-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+      <!-- If any module uses log4j 2.x, enforce it is patched by default -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j-2.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>${log4j-2.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j-2.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.hashicorp</groupId>
+      <artifactId>cdktf</artifactId>
+      <version>${cdktf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hashicorp</groupId>
+      <artifactId>cdktf-provider-google-beta</artifactId>
+      <version>${cdktf-provider-google-beta.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hashicorp</groupId>
+      <artifactId>cdktf-provider-local</artifactId>
+      <version>${cdktf-provider-local.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>software.constructs</groupId>
+      <artifactId>constructs</artifactId>
+      <version>${constructs.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>${os-maven-plugin.version}</version>
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <skip>false</skip>
+          <mainClass>com.google.cloud.teleport.v2.ops.jdbcplustobigquery.Main</mainClass>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${checkstyle.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <configLocation>${session.executionRootDirectory}/checkstyle/checkstyle.xml</configLocation>
+          <suppressionsLocation>${session.executionRootDirectory}/checkstyle/suppressions.xml</suppressionsLocation>
+          <consoleOutput>true</consoleOutput>
+          <failOnViolation>true</failOnViolation>
+          <includeResources>false</includeResources>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+        </configuration>
+        <executions>
+          <!--
+            Execute checkstyle after compilation but before tests.
+            This ensures that any parsing or type checking errors are from
+            javac, so they look as expected. Beyond that, we want to
+            fail as early as possible.
+          -->
+          <execution>
+            <id>test-compile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <!-- <compilerArgument>-parameters</compilerArgument> -->
+          <parameters>true</parameters>
+          <testCompilerArgument>-parameters</testCompilerArgument>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeScope>compile</includeScope>
+              <includeScope>runtime</includeScope>
+              <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>${maven-enforcer-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <enforceBytecodeVersion>
+                  <maxJdkVersion>${java.version}</maxJdkVersion>
+                  <excludes>
+                    <!--
+                      Supplied by the user JDK and compiled with matching
+                      version. Is not shaded, so safe to ignore.
+                    -->
+                    <exclude>jdk.tools:jdk.tools</exclude>
+                  </excludes>
+                </enforceBytecodeVersion>
+                <requireJavaVersion>
+                  <version>[1.7,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <!-- Keep aligned with prerequisite section below. -->
+                  <version>[3.2.5,)</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-banned-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>com.google.guava:guava-jdk5</exclude>
+                    <exclude>com.google.protobuf:protobuf-lite</exclude>
+                    <exclude>org.apache.logging.log4j:*:[2.0,2.14.1]</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+            <dependency>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>extra-enforcer-rules</artifactId>
+                <version>${maven-enforcer-rules.version}</version>
+            </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <windowtitle>${project.name}, version ${project.version} API</windowtitle>
+          <doctitle>${project.name}, version ${project.version}</doctitle>
+          <use>false</use>
+          <quiet>true</quiet>
+          <notimestamp>true</notimestamp>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless-maven-plugin.version}</version>
+        <configuration>
+          <formats>
+            <!-- Avoid trailing whitespace and require ending newline. -->
+            <format>
+              <includes>
+                <include>*.md</include>
+                <include>.gitignore</include>
+              </includes>
+              <trimTrailingWhitespace/>
+              <endWithNewline/>
+            </format>
+          </formats>
+          <java>
+            <toggleOffOn/>
+            <googleJavaFormat>
+              <version>1.15.0</version>
+              <style>GOOGLE</style>
+            </googleJavaFormat>
+            <licenseHeader>
+              <file>${session.executionRootDirectory}/spotless/JAVA_LICENSE_HEADER</file>
+            </licenseHeader>
+          </java>
+        </configuration>
+        <!-- Bind to verify. -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>${maven-surefire-plugin.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>${versions-maven-plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

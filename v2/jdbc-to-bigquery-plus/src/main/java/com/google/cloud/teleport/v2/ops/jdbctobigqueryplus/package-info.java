@@ -5,4 +5,4 @@
  */
 
 /** Devops assets. */
-package com.google.cloud.teleport.v2.ops.jdbcplustobigquery;
+package com.google.cloud.teleport.v2.ops.jdbctobigqueryplus;

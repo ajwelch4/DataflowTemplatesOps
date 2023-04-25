@@ -1,4 +1,4 @@
-# JDBC+ to Bigquery Ops
+# JDBC to Bigquery + Ops
 
 Install:
 

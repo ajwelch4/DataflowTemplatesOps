@@ -3,7 +3,7 @@
  * representation for any use or purpose. Your use of it is subject to your
  * agreement with Google.
  */
-package com.google.cloud.teleport.v2.ops.jdbcplustobigquery;
+package com.google.cloud.teleport.v2.ops.jdbctobigqueryplus;
 
 import com.hashicorp.cdktf.providers.google_beta.google_sql_database.GoogleSqlDatabase;
 import com.hashicorp.cdktf.providers.google_beta.google_sql_database_instance.GoogleSqlDatabaseInstance;

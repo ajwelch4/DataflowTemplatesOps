@@ -3,7 +3,7 @@
  * representation for any use or purpose. Your use of it is subject to your
  * agreement with Google.
  */
-package com.google.cloud.teleport.v2.ops.jdbcplustobigquery;
+package com.google.cloud.teleport.v2.ops.jdbctobigqueryplus;
 
 import com.hashicorp.cdktf.providers.google_beta.google_bigquery_dataset.GoogleBigqueryDataset;
 import com.hashicorp.cdktf.providers.google_beta.google_bigquery_dataset_iam_member.GoogleBigqueryDatasetIamMember;
@@ -18,7 +18,7 @@ import software.constructs.Construct;
 /** Artifact Registry resources. */
 public class BigQuery extends Construct {
 
-  private GoogleBigqueryDataset jdbcPlusToBigQueryDataset;
+  private GoogleBigqueryDataset dataset;
 
   public BigQuery(
       Construct scope,
@@ -28,7 +28,7 @@ public class BigQuery extends Construct {
       GoogleServiceAccount dataflowWorkerServiceAccount) {
     super(scope, id);
 
-    jdbcPlusToBigQueryDataset =
+    dataset =
         GoogleBigqueryDataset.Builder.create(this, "bigquery_dataset")
             .project(project)
             .location(region)
@@ -37,32 +37,31 @@ public class BigQuery extends Construct {
             .build();
 
     GoogleBigqueryTable.Builder.create(this, "customers")
-        .project(jdbcPlusToBigQueryDataset.getProject())
-        .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
+        .project(dataset.getProject())
+        .datasetId(dataset.getDatasetId())
         .tableId("customers")
         .schema(readBigQueryJsonSchemaFile("customers.json"))
         .deletionProtection(false)
         .build();
 
     GoogleBigqueryTable.Builder.create(this, "orders")
-        .project(jdbcPlusToBigQueryDataset.getProject())
-        .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
+        .project(dataset.getProject())
+        .datasetId(dataset.getDatasetId())
         .tableId("orders")
         .schema(readBigQueryJsonSchemaFile("orders.json"))
         .deletionProtection(false)
         .build();
 
-    GoogleBigqueryDatasetIamMember.Builder.create(
-            this, "dataflow_worker_dataset_editor_role")
-        .project(jdbcPlusToBigQueryDataset.getProject())
-        .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
+    GoogleBigqueryDatasetIamMember.Builder.create(this, "dataflow_worker_dataset_editor_role")
+        .project(dataset.getProject())
+        .datasetId(dataset.getDatasetId())
         .role("roles/bigquery.dataEditor")
         .member("serviceAccount:" + dataflowWorkerServiceAccount.getEmail())
         .build();
   }
 
-  public GoogleBigqueryDataset getJdbcPlusToBigQueryDataset() {
-    return jdbcPlusToBigQueryDataset;
+  public GoogleBigqueryDataset getDataset() {
+    return dataset;
   }
 
   private String readBigQueryJsonSchemaFile(String fileName) {

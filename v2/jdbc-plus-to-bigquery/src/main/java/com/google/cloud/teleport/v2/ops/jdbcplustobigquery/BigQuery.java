@@ -36,14 +36,6 @@ public class BigQuery extends Construct {
             .deleteContentsOnDestroy(true)
             .build();
 
-    GoogleBigqueryTable.Builder.create(this, "jdbcplustobigquery_configuration")
-        .project(jdbcPlusToBigQueryDataset.getProject())
-        .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
-        .tableId("configuration")
-        .schema(readBigQueryJsonSchemaFile("configuration.json"))
-        .deletionProtection(false)
-        .build();
-
     GoogleBigqueryTable.Builder.create(this, "jdbcplustobigquery_customers")
         .project(jdbcPlusToBigQueryDataset.getProject())
         .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())

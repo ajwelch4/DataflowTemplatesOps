@@ -78,6 +78,10 @@ public class PipelinesStack extends TerraformStack {
         .value(serviceAccount.getDataflowWorker().getEmail())
         .build();
 
+    TerraformOutput.Builder.create(this, "dataflow_pipeline_config_bucket")
+        .value(storage.getDataflowPipelineConfigBucket().getName())
+        .build();
+
     TerraformOutput.Builder.create(this, "dataflow_pipeline_data_bucket")
         .value(storage.getDataflowPipelineDataBucket().getName())
         .build();

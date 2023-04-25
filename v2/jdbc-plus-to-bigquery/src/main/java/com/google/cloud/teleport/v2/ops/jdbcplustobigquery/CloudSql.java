@@ -43,7 +43,7 @@ public class CloudSql extends Construct {
     sourcePostgresDatabase =
         GoogleSqlDatabase.Builder.create(this, "source_postgres_database")
             .project(project)
-            .name("jdbcplustobigquery")
+            .name("foo")
             .instance(sourcePostgresInstance.getName())
             .build();
 

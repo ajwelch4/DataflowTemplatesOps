@@ -29,14 +29,14 @@ public class BigQuery extends Construct {
     super(scope, id);
 
     jdbcPlusToBigQueryDataset =
-        GoogleBigqueryDataset.Builder.create(this, "jdbcplustobigquery_bigquery_dataset")
+        GoogleBigqueryDataset.Builder.create(this, "bigquery_dataset")
             .project(project)
             .location(region)
-            .datasetId("jdbcplustobigquery_bar")
+            .datasetId("foo_bar")
             .deleteContentsOnDestroy(true)
             .build();
 
-    GoogleBigqueryTable.Builder.create(this, "jdbcplustobigquery_customers")
+    GoogleBigqueryTable.Builder.create(this, "customers")
         .project(jdbcPlusToBigQueryDataset.getProject())
         .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
         .tableId("customers")
@@ -44,7 +44,7 @@ public class BigQuery extends Construct {
         .deletionProtection(false)
         .build();
 
-    GoogleBigqueryTable.Builder.create(this, "jdbcplustobigquery_orders")
+    GoogleBigqueryTable.Builder.create(this, "orders")
         .project(jdbcPlusToBigQueryDataset.getProject())
         .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
         .tableId("orders")
@@ -53,7 +53,7 @@ public class BigQuery extends Construct {
         .build();
 
     GoogleBigqueryDatasetIamMember.Builder.create(
-            this, "dataflow_worker_jdbcplustobigquery_dataset_editor_role")
+            this, "dataflow_worker_dataset_editor_role")
         .project(jdbcPlusToBigQueryDataset.getProject())
         .datasetId(jdbcPlusToBigQueryDataset.getDatasetId())
         .role("roles/bigquery.dataEditor")

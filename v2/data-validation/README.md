@@ -10,6 +10,7 @@ gcloud auth application-default login
 Install:
 
 ```shell
+nvm use 20
 npm install
 ```
 

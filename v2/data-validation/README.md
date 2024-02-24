@@ -1,5 +1,12 @@
 # Data Validation Template Ops
 
+Auth:
+
+```shell
+gcloud auth login
+gcloud auth application-default login
+```
+
 Install:
 
 ```shell

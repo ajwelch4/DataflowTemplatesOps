@@ -26,13 +26,13 @@ public class PipelinesStack extends TerraformStack {
 
     ServiceAccount serviceAccount = new ServiceAccount(this, "service_account", project);
 
-    ContainerRegistry containerRegistry =
-        new ContainerRegistry(
+    ArtifactRegistry artifactRegistry =
+        new ArtifactRegistry(
             this,
-            "container_registry",
+            "artifact_registry",
             project,
             region,
-            serviceApi.getContainerRegistryApi(),
+            serviceApi.getArtifactRegistryApi(),
             serviceAccount.getDataflowWorker());
 
     Storage storage =
@@ -49,8 +49,8 @@ public class PipelinesStack extends TerraformStack {
         .value(storage.getDataflowPipelineDataBucket().getName())
         .build();
 
-    TerraformOutput.Builder.create(this, "dataflow_flex_template_container_registry")
-        .value(containerRegistry.getDataflowFlexTemplateRegistry().getId())
+    TerraformOutput.Builder.create(this, "dataflow_flex_template_container_registry_repository")
+        .value(artifactRegistry.getDataflowFlexTemplateRegistryRepository().getId())
         .build();
 
     TerraformOutput.Builder.create(this, "dataflow_flex_template_bucket")

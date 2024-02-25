@@ -11,7 +11,7 @@ import software.constructs.Construct;
 /** Service API resources. */
 public class ServiceApi extends Construct {
 
-  private GoogleProjectService containerRegistryApi;
+  private GoogleProjectService artifactRegistryApi;
 
   public ServiceApi(Construct scope, String id, String project) {
     super(scope, id);
@@ -21,14 +21,19 @@ public class ServiceApi extends Construct {
         .service("dataflow.googleapis.com")
         .build();
 
-    containerRegistryApi =
-        GoogleProjectService.Builder.create(this, "container_registry_api")
+    artifactRegistryApi =
+        GoogleProjectService.Builder.create(this, "artifact_registry_api")
             .project(project)
-            .service("containerregistry.googleapis.com")
+            .service("artifactregistry.googleapis.com")
             .build();
+
+    GoogleProjectService.Builder.create(this, "container_registry_api")
+        .project(project)
+        .service("containerregistry.googleapis.com")
+        .build();
   }
 
-  public GoogleProjectService getContainerRegistryApi() {
-    return containerRegistryApi;
+  public GoogleProjectService getArtifactRegistryApi() {
+    return artifactRegistryApi;
   }
 }

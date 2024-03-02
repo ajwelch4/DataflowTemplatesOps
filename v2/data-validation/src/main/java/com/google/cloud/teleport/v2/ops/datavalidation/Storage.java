@@ -42,16 +42,6 @@ public class Storage extends Construct {
         .member("serviceAccount:" + dataflowWorkerServiceAccount.getEmail())
         .build();
 
-    GoogleStorageBucketObject.Builder.create(this, "bigquery_connection")
-        .name("config/connections/my_bq_conn.connection.json")
-        .bucket(dataflowPipelineDataBucket.getName())
-        .content(
-            "{\"source_type\": \"BigQuery\", \"secret_manager_type\": null, "
-                + "\"secret_manager_project_id\": null, \"project_id\": \""
-                + project
-                + "\"}")
-        .build();
-
     dataflowFlexTemplateBucket =
         GoogleStorageBucket.Builder.create(this, "dataflow_flex_template_bucket")
             .project(project)
